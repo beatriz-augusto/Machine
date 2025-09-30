@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>conversor de bases</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #eed3ee;
+        }
+
+        .page {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pai {
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 900px;
+            height: 500px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            background: #fff;
+            border-radius: 25px;
+            padding: 25px;
+            padding-left: 50px;
+            height: 100%;
+            width: 100%;
+        }
+
+        button {
+            background: linear-gradient(45deg, #c85bff, #b726ff);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            outline: none;
+            border-radius: 10px;
+            padding: 10px 80px;
+            border: none;
+
+        }
+
+        input {
+            outline: none;
+            border-radius: 10px;
+            padding: 10px 80px;
+            border: 1px solid #b726ff;
+            width: 250px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+
+        }
+
+        input::placeholder {
+            text-align: center;
+        }
+
+        select {
+            outline: none;
+            border-radius: 10px;
+            padding: 10px 50px;
+            border: 1px solid #b726ff;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        .resultado {
+            position: relative;
+            background-image: linear-gradient(45deg, #f046ff, #9b00e8);
+            border-radius: 25px;
+            height: 100%;
+            width: 100%;
+            padding: 25px;
+            color: #fff;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 17px;
+
+        }
+
+    </style>
+</head>
+
+<div class="page">
+    <h1>Conversor de bases numéricas</h1>
+
+    <div class="pai">
+
+        <body>
+            <div class="container">
+                <h3>Digite um número:</h3>
+                <input id="input_numero" type="text" placeholder="Ex: 42">
+
+                <div>
+                    <p>Selecione uma base:</p>
+                    <select id="select_base">
+                        <option disabled selected>Selecione uma opção</option>
+                        <option>Binario</option>
+                        <option>Octal</option>
+                        <option>Decimal</option>
+                        <option>Hexadecimal</option>
+                    </select>
+                    <div>
+                        <br>
+                        <br>
+                        <button onclick="converter()" class="butt">Converter</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="resultado">
+                <h3>Resultados:</h3>
+                <p id="p_decimal">Decimal:
+                <div id="div_decimal"></div>
+                </p>
+                <p id="p_octal">Octal:
+                <div id="div_octal"></div>
+                </p>
+                <p id="p_hexadecimal">Hexadecimal:
+                <div id="div_hexadecimal"></div>
+                </p>
+                <p id="p_binario">Binário:
+                <div id="div_binario"></div>
+                </p>
+            </div>
+    </div>
+</div>
+
+</body>
+
+</html>
+
+<script>
+    function converter() {
+        var base = select_base.value;
+        var valor = input_numero.value;
+        var decimal = parseInt(valor, 10);
+        var hexadecimal = parseInt(valor, 16);
+        var binario = parseInt(valor, 2);
+        var octal = parseInt(valor, 8);
+        /*parseInt, conerte a string em um número, seguindo o Radix(a base numérica) */
+
+        if (base == 'Decimal') {
+
+            /*^ inicio da string, [0-9] qualquer digito de 0 a 9, + um ou mais de um, $ fim da string (se o valor for true vai retornar:) */
+            if (/^[0-9]+$/.test(valor)) {
+                div_decimal.innerHTML = decimal.toString(10);
+                div_octal.innerHTML = decimal.toString(8);
+                div_hexadecimal.innerHTML = decimal.toString(16).toUpperCase();
+                div_binario.innerHTML = decimal.toString(2);
+            } else {
+                alert(`Digite um número decimal válido`)
+
+                div_decimal.innerHTML = "";
+                div_octal.innerHTML = "";
+                div_hexadecimal.innerHTML = "";
+                div_binario.innerHTML = "";
+
+
+                input_numero.value = "";
+                select_base.selectedIndex = 0;
+            }
+
+        } else if (base == 'Octal') {
+
+            if (/^[0-7]+$/.test(valor)) {
+                /*toString(), transforma número em string  */ 
+                div_octal.innerHTML = octal.toString(8);
+                div_decimal.innerHTML = octal.toString(10);
+                div_hexadecimal.innerHTML = octal.toString(16).toUpperCase();
+                div_binario.innerHTML = octal.toString(2);
+            } else {
+                alert(`Digite um número octal válido (0-7)`)
+                div_decimal.innerHTML = "";
+                div_octal.innerHTML = "";
+                div_hexadecimal.innerHTML = "";
+                div_binario.innerHTML = "";
+
+
+                input_numero.value = "";
+                select_base.selectedIndex = 0;
+            }
+
+        } else if (base == 'Binario') {
+
+            if (/^[0-1]+$/.test(valor)) {
+                div_binario.innerHTML = binario.toString(2);
+                div_decimal.innerHTML = binario.toString(10);
+                div_octal.innerHTML = binario.toString(8);
+                div_hexadecimal.innerHTML = binario.toString(16).toUpperCase();
+            } else {
+                alert(`Digite um número binário válido (0-1)`)
+                div_decimal.innerHTML = "";
+                div_octal.innerHTML = "";
+                div_hexadecimal.innerHTML = "";
+                div_binario.innerHTML = "";
+
+
+                input_numero.value = "";
+                select_base.selectedIndex = 0;
+
+
+            }
+        } else if (base == 'Hexadecimal') {
+
+            if (/^[0-9A-fa-f]+$/.test(valor)) {
+                div_hexadecimal.innerHTML = hexadecimal.toString(16).toUpperCase();
+                div_decimal.innerHTML = hexadecimal.toString(10);
+                div_octal.innerHTML = hexadecimal.toString(8);
+                div_binario.innerHTML = hexadecimal.toString(2);
+            } else {
+                alert(`Digite um número hexadecimal válido (0-9 e A-F)`)
+                div_decimal.innerHTML = "";
+                div_octal.innerHTML = "";
+                div_hexadecimal.innerHTML = "";
+                div_binario.innerHTML = "";
+
+
+                input_numero.value = "";
+                select_base.selectedIndex = 0;
+            }
+        } else {
+            alert(`Selecione uma base`)
+        }
+
+    }
+</script>
